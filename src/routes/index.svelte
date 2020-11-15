@@ -1,6 +1,5 @@
 <script>
-	// import Counter from '$components/Counter.svelte';
-	import { Navbar, NavbarSection } from '$blocks/Navbar';
+	import Counter from '$components/Counter.svelte';
 </script>
 
 <style>
@@ -44,8 +43,7 @@
 <main>
 
 	<h1>Hello world!</h1>
-	<a href="#" class="btn btn-link">Examples</a>
 
-	<!-- <Counter/> -->
+	<Counter/>
 	<p>Visit the <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte apps.</p>
 </main>
