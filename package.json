@@ -12,6 +12,8 @@
     "polka": "next",
     "sirv": "^1.0.0",
     "spectre.css": "^0.5.9"
+    "uuid": "^8.3.1",
+    "wakeonlan": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
