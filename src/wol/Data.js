@@ -42,6 +42,15 @@ const DataObj = new (class {
   find (id) {
     return this.#data[id] || null
   }
+
+  add (device) {
+    if (this.find(device.id)) {
+      return new Error(`Duplicate ID added \`${device.id}\``)
+    }
+
+    this.#data[device.id] = device
+    this.save()
+  }
 })()
 
 export default DataObj
