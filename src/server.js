@@ -16,7 +16,7 @@ polka()
     // Polka's that minimal that we don't even have a nice response function
     (req, res, next) => {
       res.finish = (data, code = 200) => {
-        sendType(res, code, data)
+        sendType(res, code, code >= 400 ? { error: data } : data)
       }
       next()
     },
