@@ -6,7 +6,7 @@ const DataObj = new (class {
   #data
 
   constructor () {
-    this.#data = {}
+    this.#data = []
     if (!fs.existsSync(filename)) {
       console.log(`Creating data storage in ${filename}`)
       this.save()
@@ -19,7 +19,7 @@ const DataObj = new (class {
 
       for (let [id, data] of Object.entries(fileData)) {
         try {
-          this.#data[id] = loadDevice(data)
+          this.#data.push(loadDevice(data))
         } catch (e) {
           console.log(`Could not load device with ID: ${id}.\nError: ${e}`);
         }
@@ -40,7 +40,7 @@ const DataObj = new (class {
   }
 
   find (id) {
-    return this.#data[id] || null
+    return this.#data.find(device => device.id === id)
   }
 
   add (device) {
@@ -48,7 +48,7 @@ const DataObj = new (class {
       return new Error(`Duplicate ID added \`${device.id}\``)
     }
 
-    this.#data[device.id] = device
+    this.#data.push(device)
     this.save()
   }
 })()
