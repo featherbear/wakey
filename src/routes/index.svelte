@@ -1,13 +1,7 @@
 <script>
-	import Counter from '$components/Counter.svelte';
+	// import Counter from '$components/Counter.svelte';
+	import { Navbar, NavbarSection } from '$blocks/Navbar';
 </script>
-
-<main>
-	<h1>Hello world!</h1>
-
-	<Counter/>
-	<p>Visit the <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte apps.</p>
-</main>
 
 <style>
 	:root {
@@ -46,3 +40,12 @@
 		}
 	}
 </style>
+
+<main>
+
+	<h1>Hello world!</h1>
+	<a href="#" class="btn btn-link">Examples</a>
+
+	<!-- <Counter/> -->
+	<p>Visit the <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte apps.</p>
+</main>
