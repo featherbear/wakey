@@ -6,28 +6,19 @@ const emitter = new EventEmitter()
 export function push (json) {
   emitter.emit(
     'event',
-    [
-      `id: ${uuid()}`,
-      'event: status',
-      `data: ${JSON.stringify(json)}`,
-      '\n'
-    ].join('\n')
+    ['event: status', `data: ${JSON.stringify(json)}`, '\n'].join('\n')
   )
 }
-
 
 export async function get (req, res) {
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
-    'Cache-Control': 'no-cache',
+    'Cache-Control': 'no-cache, no-transform',
     Connection: 'keep-alive'
   })
 
-  emitter.on('event', data => {
-    res.write(data)
-  })
+  const writeEvt = data => res.write(data)
 
-  console.log(req.socket.once('end', ()=> {
-    console.log('GONE');
-  }));
+  emitter.on('event', writeEvt)
+  req.on('close', () => emitter.removeListener('event', writeEvt))
 }

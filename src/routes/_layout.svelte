@@ -11,6 +11,14 @@
   //#endregion
 
   import { Navbar, NavbarSection, NavbarLink } from "$blocks/Navbar";
+
+  import { onMount } from "svelte";
+  onMount(() => {
+    let SSE = new EventSource("/api/status");
+    SSE.addEventListener("status", function ({ data }) {
+      data = JSON.parse(data)
+    });
+  });
 </script>
 
 <style global lang="scss">
