@@ -9,7 +9,9 @@
 <script>
   export let devices = [];
 
+  import show from "$components/show.js";
   import DeviceCard from "$components/DeviceCard.svelte";
+  import EditDeviceModal from "$components/EditDeviceModal";
 
   let mode = "card"; // 'card' or 'table'
 </script>
@@ -18,6 +20,7 @@
   @import "spectre.css/src/spectre-icons.scss";
 </style>
 
+<div on:click={() => show(EditDeviceModal)}>aaa</div>
 <div class="container">
   {#if devices.length !== 0}
     {#if mode === 'list'}
@@ -26,8 +29,8 @@
           <tr>
             <th>Device</th>
             <th>MAC</th>
-            <th>Address</th>
             <th>Port</th>
+            <th>Address</th>
             <th>Count</th>
             <th>Interval</th>
             <th>Status</th>
@@ -38,8 +41,8 @@
             <tr>
               <td>{device.name}</td>
               <td>{device.mac}</td>
-              <td>{device.address}</td>
               <td>{device.port}</td>
+              <td>{device.address}</td>
               <td>{device.count}</td>
               <td>{device.interval}</td>
               <td>OFFLINE</td>

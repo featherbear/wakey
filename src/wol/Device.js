@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import wol from 'wakeonlan'
+import defaults from './defaults'
 
 class WOLDevice {
   #name
@@ -103,14 +104,7 @@ class WOLDevice {
 }
 
 export function initialiseDevice () {
-  let device = new WOLDevice({
-    name: 'WOL Device',
-    address: '255.255.255.255',
-    port: 9,
-    count: 3,
-    interval: 100,
-    mac: 'FF:FF:FF:FF:FF:FF'
-  })
+  let device = new WOLDevice(defaults)
   device.id = uuid()
   return device
 }
