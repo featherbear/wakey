@@ -34,7 +34,7 @@ class WOLDevice {
   set mac (val) {
     if (!val || typeof val !== 'string')
       throw new Error('Invalid value: ' + val)
-    this.#mac = val
+    this.#mac = val.toUpperCase()
   }
 
   get address () {

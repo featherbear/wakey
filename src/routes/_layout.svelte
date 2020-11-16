@@ -1,8 +1,8 @@
 <script>
   export let segment;
 
-  // @sveltejs/kit has the getStores() method, but I have no idea how to expose it
   //#region Current page store
+  // @sveltejs/kit has the getStores() method, but I have no idea how to expose it
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
   let store = writable(segment);
@@ -13,10 +13,12 @@
   import { Navbar, NavbarSection, NavbarLink } from "$blocks/Navbar";
 
   import { onMount } from "svelte";
+  let statusStore = writable({});
+  setContext("status", { subscribe: statusStore.subscribe });
   onMount(() => {
     let SSE = new EventSource("/api/status#nosw");
     SSE.addEventListener("status", function ({ data }) {
-      data = JSON.parse(data)
+      statusStore.set(JSON.parse(data));
     });
   });
 </script>
