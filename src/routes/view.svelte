@@ -10,10 +10,11 @@
   export let devices = [];
 
   import show from "$components/show.js";
+  import { Card } from "$blocks/Card";
   import DeviceCard from "$components/DeviceCard.svelte";
   import EditDeviceModal from "$components/EditDeviceModal";
 
-  let mode = "card"; // 'card' or 'table'
+  let mode = "card"; // 'card' or 'table' // TODO: Implement
 
   import { getContext } from "svelte";
   const deviceStatus = getContext("status");
@@ -24,12 +25,28 @@
     meta: $deviceStatus[d.mac] || {},
   }));
 
-  async function handleEditRequest({ detail: device }) {
+  import deviceDefaults from "../wol/defaults";
+
+  async function handleEditRequest({ detail: device } = {}) {
     let result = await show(EditDeviceModal, { device });
     if (result) {
       let targetDevice = devices.find((device) => device.id === result.id);
       if (!targetDevice) {
-        console.log("create");
+        for (let key in deviceDefaults) {
+          if (typeof result[key] === "undefined") {
+            result[key] = deviceDefaults[key];
+          }
+        }
+
+        let resp = await fetch("/api/device", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(result),
+        }).then((r) => r.json());
+        if (!resp.id) {
+          console.log(":(");
+        }
+        devices = [...devices, { ...result, id: resp.id }];
       } else {
         // Check if MAC of the entry was changed - invalidate any meta states
         let macChanged = targetDevice.mac !== result.mac;
@@ -48,6 +65,11 @@
     .column {
       padding-bottom: 0.8rem;
     }
+  }
+
+  #newDevice {
+    cursor: pointer;
+    user-select: none;
   }
 </style>
 
@@ -87,6 +109,17 @@
             <DeviceCard {device} on:edit={handleEditRequest} />
           </div>
         {/each}
+        <div class="column col-3">
+          <Card>
+            <div
+              class="empty"
+              id="newDevice"
+              on:click={() => handleEditRequest()}>
+              <div class="empty-icon"><i class="icon icon-plus icon-3x" /></div>
+              <p class="empty-title h5">Add a new device</p>
+            </div>
+          </Card>
+        </div>
       </div>
     {/if}
   {:else}
