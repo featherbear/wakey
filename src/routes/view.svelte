@@ -18,11 +18,14 @@
 
   import { getContext } from "svelte";
   const deviceStatus = getContext("status");
+  let statusCache = {}
+
+  $: statusCache = {...statusCache, ...$deviceStatus}
 
   let combinedData = {};
   $: combinedData = devices.map((d) => ({
     ...d,
-    meta: $deviceStatus[d.mac] || {},
+    meta: statusCache[d.mac] || {},
   }));
 
   import deviceDefaults from "../wol/defaults";
