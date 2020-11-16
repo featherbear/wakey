@@ -28,9 +28,9 @@ export default {
       replace({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode)
-			}),
-			includePaths(),
-			alias({
+      }),
+      includePaths(),
+      alias({
         entries: {
           $blocks: './src/blocks',
           $styles: './src/styles',
@@ -42,13 +42,19 @@ export default {
         dev,
         hydratable: true,
         emitCss: true,
-        preprocess: svelteConfig.preprocess
+        preprocess: svelteConfig.preprocess,
+        onwarn: (warning, handler) => {
+          const { code, frame } = warning
+          if (code === 'css-unused-selector') return
+
+          handler(warning)
+        }
       }),
       resolve({
         browser: true,
         dedupe: ['svelte']
       }),
-      commonjs(),  
+      commonjs(),
       legacy &&
         babel({
           extensions: ['.js', '.mjs', '.html', '.svelte'],
@@ -90,8 +96,8 @@ export default {
       replace({
         'process.browser': false,
         'process.env.NODE_ENV': JSON.stringify(mode)
-			}),
-			includePaths(),
+      }),
+      includePaths(),
       alias({
         entries: {
           $components: './src/components',

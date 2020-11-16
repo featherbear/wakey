@@ -14,8 +14,6 @@
   export let device = {};
 
   let currentDevice = { ...device };
-
-  setInterval(() => console.log(currentDevice), 1000);
 </script>
 
 <div class="modal active" transition:fade>
