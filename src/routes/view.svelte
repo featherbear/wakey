@@ -43,6 +43,12 @@
 
 <style lang="scss">
   @import "spectre.css/src/spectre-icons.scss";
+
+  .columns {
+    .column {
+      padding-bottom: 0.8rem;
+    }
+  }
 </style>
 
 <div class="container">
