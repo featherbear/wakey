@@ -37,11 +37,11 @@
 </svelte:head>
 
 <main id="app">
-  <Navbar>
+  <!-- <Navbar>
     <NavbarSection>
       <NavbarLink href="view" text="View" />
       <NavbarLink href="edit" text="Edit" />
     </NavbarSection>
-  </Navbar>
+  </Navbar> -->
   <slot />
 </main>

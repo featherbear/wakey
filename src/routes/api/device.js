@@ -25,8 +25,6 @@ export async function post (req, res) {
     )
   }
 
-  device.mac = device.mac.toUpperCase()
-
   req.app.add(device)
 
   return res.finish({ id: device.id })

@@ -1,8 +1,12 @@
-<script>
-	import Counter from '$components/Counter.svelte';
+<script context="module">
+  export function preload() {
+    this.redirect(302, "/view");
+  }
 </script>
 
-<style>
+<!--<script>
+	import Counter from '$components/Counter.svelte';
+</script><style>
 	:root {
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	}
@@ -38,12 +42,10 @@
 			max-width: none;
 		}
 	}
-</style>
-
-<main>
+</style><main>
 
 	<h1>Hello world!</h1>
 
 	<Counter/>
 	<p>Visit the <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte apps.</p>
-</main>
+</main> -->
