@@ -54,16 +54,30 @@ const WOLManager = new (class {
 
     // A MAC address can have multiple IPs resolved to it
     // Group IPs by MAC address
-    let data = devices.reduce(
-      (obj, { name, ip, mac }) => ({
+    let addresses = devices.reduce((obj, { ip, mac }) => {
+      mac = mac.toUpperCase()
+      return {
         ...obj,
         [mac]: [...(obj[mac] || []), ip]
+      }
+    }, {})
+
+    let data = Object.entries(addresses).reduce(
+      (obj, [mac, ips]) => ({
+        ...obj,
+        [mac]: { seen: new Date().getTime(), ips }
       }),
       {}
     )
 
+    // Apply new data over old data
+    let newStatus = {
+      ...this.#status,
+      ...data
+    }
+
     this.#scanCallback && this.#scanCallback(data)
-    this.#status = data
+    this.#status = newStatus
   }
 
   async save () {
