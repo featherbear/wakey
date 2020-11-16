@@ -13,8 +13,8 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   dayjs.extend(relativeTime);
 
-  $: online = device.ips && device.ips.length > 0;
-  $: seen = device.seen && dayjs(device.seen);
+  $: online = device.meta.ips && device.meta.ips.length > 0;
+  $: seen = device.meta.seen && dayjs(device.meta.seen);
 
   let isWaking = false;
   function doWake() {
@@ -27,10 +27,28 @@
       body: JSON.stringify({ id: device.id, wait: true }),
     }).finally(() => (isWaking = false));
   }
+
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 </script>
+
+<style lang="scss">
+  @import "spectre.css/src/spectre-icons.scss";
+
+  .icon-edit {
+    transition: opacity 0.3s;
+    opacity: 0.6;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+</style>
 
 <Card>
   <CardHeader>
+    <i on:click={dispatch('edit', device)} class="icon icon-edit float-right" />
     <CardTitle>{device.name}</CardTitle>
     <CardSubtitle classNames={online && 'text-success'}>
       {online ? 'Online' : 'Offline'}
@@ -43,7 +61,7 @@
       <dd>Port: {device.port}</dd>
       <dd>Count: {device.count}</dd>
       <dd>Interval: {device.interval}</dd> -->
-      {#if online}{device.ips}{/if}
+      {#if online}{device.meta.ips}{/if}
     </dl>
     Last seen:
     {#if seen}

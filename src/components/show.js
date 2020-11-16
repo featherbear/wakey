@@ -1,15 +1,14 @@
 export default function show (SvelteElement, props) {
-  const element = new SvelteElement({
-    target: document.body,
-    props: {
-      data: props
-    },
-    intro: true
-  })
+  return new Promise((resolve, reject) => {
+    const element = new SvelteElement({
+      target: document.body,
+      props,
+      intro: true
+    })
 
-  element.$on('destroy', () => {
-    element.$destroy()
+    element.$on('destroy', ({ detail }) => {
+      element.$destroy()
+      resolve(detail)
+    })
   })
-
-  return element.promise
 }

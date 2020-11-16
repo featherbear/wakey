@@ -21,15 +21,30 @@
   let combinedData = {};
   $: combinedData = devices.map((d) => ({
     ...d,
-    ...$deviceStatus[d.mac],
+    meta: $deviceStatus[d.mac] || {},
   }));
+
+  async function handleEditRequest({ detail: device }) {
+    let result = await show(EditDeviceModal, { device });
+    if (result) {
+      let targetDevice = devices.find((device) => device.id === result.id);
+      if (!targetDevice) {
+        console.log("create");
+      } else {
+        // Check if MAC of the entry was changed - invalidate any meta states
+        let macChanged = targetDevice.mac !== result.mac;
+        Object.assign(targetDevice, result);
+        macChanged && (targetDevice.meta = {});
+        devices = devices;
+      }
+    }
+  }
 </script>
 
 <style lang="scss">
   @import "spectre.css/src/spectre-icons.scss";
 </style>
 
-<div on:click={() => show(EditDeviceModal)}>aaa</div>
 <div class="container">
   {#if combinedData.length !== 0}
     {#if mode === 'list'}
@@ -63,7 +78,7 @@
       <div class="columns">
         {#each combinedData as device}
           <div class="column col-3">
-            <DeviceCard {device} />
+            <DeviceCard {device} on:edit={handleEditRequest} />
           </div>
         {/each}
       </div>

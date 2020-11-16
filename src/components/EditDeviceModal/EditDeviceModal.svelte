@@ -2,10 +2,7 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
   const doClose = () => dispatch("destroy");
-  const doSave = () => {
-    dispatch("save", { ...currentDevice });
-    dispatch("destroy");
-  };
+  const doSave = () => dispatch("destroy", { ...currentDevice });
 
   import { fade } from "svelte/transition";
   import RowEntry from "./RowEntry.svelte";
@@ -71,16 +68,10 @@
             {/if}
           </form>
         </div>
-        <th>Name</th>
-        <th>Device</th>
-        <th>MAC</th>
-        <th>Address</th>
-        <th>Port</th>
-
-        <th>Count</th>
-        <th>Interval</th>
       </div>
     </div>
-    <div class="modal-footer">...</div>
+    <div class="modal-footer">
+      <button on:click={doSave} class="btn btn-success">Save</button>
+    </div>
   </div>
 </div>
