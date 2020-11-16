@@ -12,9 +12,10 @@
     "@polka/send-type": "^0.5.2",
     "body-parser": "^1.19.0",
     "compression": "^1.7.1",
+    "local-devices": "^3.1.0",
     "polka": "next",
     "sirv": "^1.0.0",
-    "spectre.css": "^0.5.9"
+    "spectre.css": "^0.5.9",
     "uuid": "^8.3.1",
     "wakeonlan": "^0.1.0"
   },

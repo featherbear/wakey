@@ -8,7 +8,14 @@ import sendType from '@polka/send-type'
 const { PORT, NODE_ENV } = process.env
 const dev = NODE_ENV === 'development'
 
-import Data, { MiddlewareGenerator as WOLMiddleware } from './wol/Data'
+import WOLManager, {
+  MiddlewareGenerator as WOLMiddleware
+} from './wol/WOLManager'
+
+import { push, push as SSE } from './routes/api/status'
+WOLManager.setCallback(() => {
+  push(WOLManager.status())
+})
 
 polka()
   .use(
