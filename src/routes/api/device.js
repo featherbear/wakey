@@ -65,4 +65,19 @@ export async function put (req, res) {
   return res.finish('OK')
 }
 
-// TODO: Delete
+export async function del (req, res) {
+  const { id } = req.body
+
+  if (typeof id === 'undefined') {
+    return res.finish('`id` not supplied!', 400)
+  }
+
+  let device = req.app.find(id)
+  if (!device) {
+    return res.finish(`Device with id \`${id}\` not found`, 404)
+  }
+
+  req.app.remove(device)
+
+  return res.finish('OK')
+}

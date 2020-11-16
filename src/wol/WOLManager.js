@@ -108,6 +108,11 @@ const WOLManager = new (class {
     this.#data.push(device)
     this.save()
   }
+
+  remove (device) {
+    this.#data = this.#data.filter(d => d !== device)
+    this.save()
+  }
 })()
 
 export default WOLManager

@@ -50,24 +50,41 @@
         devices = [...devices, { ...result, id: resp.id }];
         //#endregion
       } else {
-        //#region Edit device
-        // Check if MAC of the entry was changed - invalidate any meta states
-        let macChanged = targetDevice.mac !== result.mac;
+        //#region Delete device
+        if (result.action === "delete") {
+          let resp = await fetch("/api/device", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: result.id }),
+          });
 
-        let resp = await fetch("/api/device", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(result),
-        });
+          if (resp.status !== 200) {
+            throw new Error(":(");
+          }
 
-        if (resp.status !== 200) {
-          throw new Error(":(");
+          devices = devices.filter(d => d !== targetDevice);
+        } else {
+          //
+
+          //#region Edit device
+          // Check if MAC of the entry was changed - invalidate any meta states
+          let macChanged = targetDevice.mac !== result.mac;
+
+          let resp = await fetch("/api/device", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(result),
+          });
+
+          if (resp.status !== 200) {
+            throw new Error(":(");
+          }
+
+          Object.assign(targetDevice, result);
+          macChanged && (targetDevice.meta = {});
+          devices = devices;
+          //#endregion
         }
-
-        Object.assign(targetDevice, result);
-        macChanged && (targetDevice.meta = {});
-        devices = devices;
-        //#endregion
       }
     }
   }

@@ -3,6 +3,7 @@
   const dispatch = createEventDispatcher();
   const doClose = () => dispatch("destroy");
   const doSave = () => dispatch("destroy", { ...currentDevice });
+  const doDelete = () => dispatch("destroy", { action: "delete", id: device.id });
 
   import { fade } from "svelte/transition";
   import RowEntry from "./RowEntry.svelte";
@@ -71,6 +72,9 @@
       </div>
     </div>
     <div class="modal-footer">
+      {#if typeof device.id !== 'undefined'}
+        <button on:click={doDelete} class="btn btn-error">Delete</button>
+      {/if}
       <button on:click={doSave} class="btn btn-success">Save</button>
     </div>
   </div>
