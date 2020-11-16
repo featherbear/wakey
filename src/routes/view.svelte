@@ -14,6 +14,15 @@
   import EditDeviceModal from "$components/EditDeviceModal";
 
   let mode = "card"; // 'card' or 'table'
+
+  import { getContext } from "svelte";
+  const deviceStatus = getContext("status");
+
+  let combinedData = {};
+  $: combinedData = devices.map((d) => ({
+    ...d,
+    ...$deviceStatus[d.mac],
+  }));
 </script>
 
 <style lang="scss">
@@ -22,7 +31,7 @@
 
 <div on:click={() => show(EditDeviceModal)}>aaa</div>
 <div class="container">
-  {#if devices.length !== 0}
+  {#if combinedData.length !== 0}
     {#if mode === 'list'}
       <table class="table table-striped table-hover">
         <thead>
@@ -37,7 +46,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each devices as device}
+          {#each combinedData as device}
             <tr>
               <td>{device.name}</td>
               <td>{device.mac}</td>
@@ -52,7 +61,7 @@
       </table>
     {:else}
       <div class="columns">
-        {#each devices as device}
+        {#each combinedData as device}
           <div class="column col-3">
             <DeviceCard {device} />
           </div>
