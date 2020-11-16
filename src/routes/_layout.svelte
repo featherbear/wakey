@@ -32,6 +32,10 @@
   }
 </style>
 
+<svelte:head>
+  <title>Wakey</title>
+</svelte:head>
+
 <main id="app">
   <Navbar>
     <NavbarSection>
