@@ -5,7 +5,7 @@ export async function post (req, res, n) {
     return res.finish('`id` not supplied!', 400)
   }
 
-  let device = req.app.find()
+  let device = req.app.find(id)
   if (!device) {
     return res.finish(`Device with id \`${id}\` not found`, 404)
   }
