@@ -10,10 +10,7 @@ export async function post (req, res, n) {
     return res.finish(`Device with id \`${id}\` not found`, 404)
   }
 
-  if (wait) {
-    return res.end(await device.wake())
-  } else {
-    device.wake()
-    return res.finish('OK')
-  }
+  wait ? await device.wake() : device.wake()
+
+  return res.finish('OK')
 }

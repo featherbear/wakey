@@ -15,6 +15,18 @@
 
   $: online = device.ips && device.ips.length > 0;
   $: seen = device.seen && dayjs(device.seen);
+
+  let isWaking = false;
+  function doWake() {
+    isWaking = true;
+    fetch("/api/wake", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: device.id, wait: true }),
+    }).finally(() => (isWaking = false));
+  }
 </script>
 
 <Card>
@@ -44,12 +56,7 @@
   <CardFooter>
     <button
       class="btn btn-primary"
-      on:click={() => fetch('/api/wake', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: device.id }),
-        })}>Wake Device</button>
+      class:loading={isWaking}
+      on:click={doWake}>Wake Device</button>
   </CardFooter>
 </Card>
