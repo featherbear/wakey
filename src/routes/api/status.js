@@ -3,10 +3,11 @@ import { EventEmitter } from 'events'
 
 const emitter = new EventEmitter()
 
+let last = null
 export function push (json) {
   emitter.emit(
     'event',
-    ['event: status', `data: ${JSON.stringify(json)}`, '\n'].join('\n')
+    (last = ['event: status', `data: ${JSON.stringify(json)}`, '\n'].join('\n'))
   )
 }
 
@@ -18,6 +19,7 @@ export async function get (req, res) {
   })
 
   const writeEvt = data => res.write(data)
+  last && writeEvt(last)
 
   emitter.on('event', writeEvt)
   req.on('close', () => emitter.removeListener('event', writeEvt))
