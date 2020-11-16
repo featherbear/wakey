@@ -14,7 +14,7 @@
 
   import { onMount } from "svelte";
   onMount(() => {
-    let SSE = new EventSource("/api/status");
+    let SSE = new EventSource("/api/status#nosw");
     SSE.addEventListener("status", function ({ data }) {
       data = JSON.parse(data)
     });
