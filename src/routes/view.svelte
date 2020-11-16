@@ -31,6 +31,7 @@
     let result = await show(EditDeviceModal, { device });
     if (result) {
       let targetDevice = devices.find((device) => device.id === result.id);
+      //#region Create device
       if (!targetDevice) {
         for (let key in deviceDefaults) {
           if (typeof result[key] === "undefined") {
@@ -44,15 +45,29 @@
           body: JSON.stringify(result),
         }).then((r) => r.json());
         if (!resp.id) {
-          console.log(":(");
+          throw new Error(":(");
         }
         devices = [...devices, { ...result, id: resp.id }];
+        //#endregion
       } else {
+        //#region Edit device
         // Check if MAC of the entry was changed - invalidate any meta states
         let macChanged = targetDevice.mac !== result.mac;
+
+        let resp = await fetch("/api/device", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(result),
+        });
+
+        if (resp.status !== 200) {
+          throw new Error(":(");
+        }
+
         Object.assign(targetDevice, result);
         macChanged && (targetDevice.meta = {});
         devices = devices;
+        //#endregion
       }
     }
   }
