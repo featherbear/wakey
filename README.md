@@ -24,6 +24,10 @@ yarn      (or npm install)
 yarn dev  (or npm run dev)
 ```
 
+## Docker
+
+Bind `/app/data.json` to some persistent file
+
 ## License
 
 MIT License
