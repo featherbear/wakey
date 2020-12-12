@@ -1,7 +1,7 @@
-FROM node:12
+FROM node:12-alpine
 
 # Install the `net-tools` package that provides `arp`
-RUN apt-get update && apt-get install -y net-tools && rm -rf /var/lib/apt/lists/*
+RUN apk add --update-cache net-tools && rm -rf /var/cache/apk/*
 
 WORKDIR /tmp/build
 
