@@ -31,7 +31,6 @@
   import deviceDefaults from "../wol/defaults";
 
   async function handleEditRequest({ detail: device } = {}) {
-    console.log('ya');
     let result = await show(EditDeviceModal, { device });
     if (result) {
       let targetDevice = devices.find((device) => device.id === result.id);
