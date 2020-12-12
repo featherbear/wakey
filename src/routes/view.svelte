@@ -31,6 +31,7 @@
   import deviceDefaults from "../wol/defaults";
 
   async function handleEditRequest({ detail: device } = {}) {
+    console.log('ya');
     let result = await show(EditDeviceModal, { device });
     if (result) {
       let targetDevice = devices.find((device) => device.id === result.id);
@@ -163,7 +164,7 @@
       <p class="empty-title h5">You have no devices added</p>
       <!-- <p class="empty-subtitle">Let's get one added!</p> -->
       <div class="empty-action">
-        <button class="btn btn-primary"><i class="icon icon-plus" />
+        <button class="btn btn-primary" on:click={() => handleEditRequest()}><i class="icon icon-plus" />
           Add a device</button>
       </div>
     </div>
