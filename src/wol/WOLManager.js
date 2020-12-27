@@ -2,7 +2,7 @@ import fs from 'fs'
 import { loadDevice } from './Device'
 import doScan from 'local-devices'
 
-const filename = 'data.json'
+const filename = 'data/data.json'
 
 const WOLManager = new (class {
   #data
