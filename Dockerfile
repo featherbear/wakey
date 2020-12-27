@@ -12,7 +12,7 @@ RUN yarn
 COPY . .
 
 # Build the app and place it in /app
-RUN yarn build && mkdir -p /app && mv node_modules __sapper__ package.json static /app && rm -rf /tmp/build
+RUN yarn build && mkdir -p /app && mv node_modules __sapper__ package.json data static /app && rm -rf /tmp/build
 
 WORKDIR /app
 EXPOSE 3000
