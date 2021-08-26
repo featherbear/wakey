@@ -13,8 +13,12 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   dayjs.extend(relativeTime);
 
-  $: online = device.meta.ips && device.meta.ips.length > 0;
   $: seen = device.meta.seen && dayjs(device.meta.seen);
+
+  // this subtracts the current UNIX-timestamp from the UNIX-timestamp of last seen
+  // the result will be 'seen from now' in seconds which is then compared to three minutes
+  // hence a computer is marked as offline if it hasn't been seen for three minutes
+  $: online = (seen) ? ((dayjs().unix() - seen.unix()) < 180) : false;
 
   let isWaking = false;
   function doWake() {
